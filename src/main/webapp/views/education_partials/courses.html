@@ -1,0 +1,59 @@
+<div ui-view>
+    <div class="row">
+
+        <div class="col-md-12 col-xs-12">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    All Courses Summary
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-xs-12" style="padding: 0">
+                        <input type="text" placeholder="Enter text to search" ng-model="search" class="form-control">
+                    </div>
+                    <div class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                        <div class="table-responsive">
+                            <table ng-table="institutionsTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th ng-click="sortBy('name')" style="cursor: pointer;">
+                                            Course Name
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th ng-click="sortBy('institutionname')" style="cursor: pointer;">
+                                            Institution
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th ng-click="sortBy('students')" style="cursor: pointer;">
+                                            No. of Students
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="c in courses_list | filter : search | orderBy:propertyName:reverse | itemsPerPage:10">
+                                        <td style="width: 1%;">{{ $index + serial}}</td>
+                                        <td>{{c.name}}</td>
+                                        <td>{{ c.institutionname = c.institution.name }}</td>
+                                        <td>{{ c.students.length }}</td>
+                                        <td>
+                                            <button class="btn btn-xs btn-info " type="button" ui-sref="home.global.singleinstitution({index:c.institution.institutionid})">Edit</button>
+                                            <button class="btn btn-xs btn-primary " type="button" ui-sref="home.global.singleinstitution.coursedetails({index:c.institution.institutionid, courseid:c.courseid})">View More</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <dir-pagination-controls
+                                on-page-change='indexCount(newPageNumber)'
+                                max-size="5"
+                                direction-links="true"
+                                boundary-links="true" >
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

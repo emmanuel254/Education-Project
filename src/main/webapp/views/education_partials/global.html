@@ -1,0 +1,84 @@
+<div ui-view>
+    <div class="row">
+
+        <div class="{{ showform ? 'col-md-8' : 'col-md-12' }} col-xs-12">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    All Institutions Summary
+                    <button class="btn btn-info btn-sm pull-right" style="margin-bottom:3px;" ng-click="showAddForm()">Add Institution</button>
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-xs-12" style="padding: 0">
+                        <input type="text" placeholder="Enter text to search" ng-model="search" class="form-control">
+                    </div>
+                    <div class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                        <div class="table-responsive">
+                            <table ng-table="institutionsTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th ng-click="sortBy('name')" style="cursor: pointer;">
+                                            Name
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th ng-click="sortBy('courses')" style="cursor: pointer;">
+                                            No. of Courses
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th ng-click="sortBy('students')" style="cursor: pointer;">
+                                            No. of Students
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="i in institutions| filter : search | orderBy:propertyName:reverse | itemsPerPage:10">
+                                        <td style="width: 1%;">{{ $index + serial}}</td>
+                                        <td>{{i.name}}</td>
+                                        <td>{{ i.courses.length }}</td>
+                                        <td>{{ i.students = countStudents(i.courses) }}</td>
+                                        <td style="min-width: 150px;">
+                                            <button class="btn btn-sm btn-primary" ng-click="updateInstitution({name: i.name, institutionid: i.institutionid})"><i class="fa fa-edit"></i></button>
+                                            <button class="btn btn-sm btn-danger {{ i.courses.length > 0 ? 'disabled' : ''}}" ng-click="deleteInstitution(i)"><i class="fa fa-trash"></i></button>
+                                            <button class="btn btn-xs btn-primary pull-right" type="button" ui-sref="home.global.singleinstitution({index:i.institutionid})">Explore</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                
+                            </table>
+                            <dir-pagination-controls
+                                on-page-change='indexCount(newPageNumber)'
+                                max-size="5"
+                                direction-links="true"
+                                boundary-links="true" >
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-if="showform" class="col-md-4 col-xs-12">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    {{ new_institution.institutionid ? 'Edit '+new_institution.name : 'Add Institution'}}
+                </div>
+                <div class="panel-body">
+                    <form id="addInstitutionForm" name="addInstitutionForm">
+                        <div class="col-md-12" style="padding: 0">
+                            <label for="institutionname">Name</label>
+                            <input type="text" title="Please enter the institution name" placeholder="Institution Name" required name="institutionname" id="institutionname" ng-model="new_institution.name" class="form-control">
+                        </div>
+                        <div class="col-md-12" style="padding: 16px 0 0 0">
+                            <button class="btn btn-sm btn-primary pull-right" ng-click="manageInstitution()" type="submit">
+                                <i ng-if="loading" class="fa fa-spinner fa-spin"></i>
+                                {{ loading ? 'Saving Changes...' : 'Submit' }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

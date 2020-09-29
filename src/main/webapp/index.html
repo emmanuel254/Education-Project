@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html ng-app="homer">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+
+        <title page-title>Education Platform</title>
+
+        <link rel="stylesheet" href="styles/vendor.cf60403d.css">
+        <link rel="stylesheet" href="styles/style.bb02c2e3.css">
+    </head>
+
+    <body ng-controller="appCtrl" class="fixed-navbar fixed-sidebar" landing-scrollspy tour backdrop="true">
+        <div class="splash">
+            <div class="color-line"></div>
+            <div class="splash-title">
+                <h1>Education Platform</h1>
+                <p>Loading some content for you...</p>
+                <img src="images/loading-bars.svg" width="64" height="64">
+            </div>
+        </div>
+
+        <div ui-view autoscroll="true"></div>
+        <script src="scripts/vendor.5c2b3ac5.js"></script>
+        <script src="scripts/scripts_functions.js"></script>
+        <script src="scripts/dirPagination.js"></script>
+        <script src="scripts/scripts.ba63db45.js"></script>
+        
+        <script src="factories_services/utility.js"></script>
+        <script src="factories_services/appFactory.js"></script>
+        <script src="factories_services/liteService.js"></script>
+    </body>
+</html>

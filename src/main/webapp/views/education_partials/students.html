@@ -1,0 +1,63 @@
+<div ui-view>
+    <div class="row">
+
+        <div class="col-md-12 col-xs-12">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    All Student Summary
+                </div>
+                <div class="panel-body">
+                    <div class="col-md-12 col-xs-12" style="padding: 0">
+                        <input type="text" placeholder="Enter text to search" ng-model="search" class="form-control">
+                    </div>
+                    <div class="col-md-12 col-xs-12" style="padding: 16px 0 0 0">
+                        <div class="table-responsive">
+                            <table ng-table="institutionsTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th ng-click="sortBy('name')" style="cursor: pointer;">
+                                            Name
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th ng-click="sortBy('coursename')" style="cursor: pointer;">
+                                            Course
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th ng-click="sortBy('institutionname')" style="cursor: pointer;">
+                                            Institution
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th ng-click="sortBy('updated_on')" style="cursor: pointer;">
+                                            Last Updated
+                                            <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                        </th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr dir-paginate="s in students_list | filter : search | orderBy:propertyName:reverse | itemsPerPage:10">
+                                        <td style="width: 1%;">{{ $index + serial}}</td>
+                                        <td>{{s.name}}</td>
+                                        <td>{{ s.coursename = s.course.name }}</td>
+                                        <td>{{ s.institutionname = s.institution.name }}</td>
+                                        <td>{{ timestampToDate(s.updated_on) }}</td>
+                                        <td>
+                                            <button class="btn btn-xs btn-primary" type="button" ui-sref="home.global.student({studentid:s.studentid})">Full Profile</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <dir-pagination-controls
+                                on-page-change='indexCount(newPageNumber)'
+                                max-size="5"
+                                direction-links="true"
+                                boundary-links="true" >
+                            </dir-pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

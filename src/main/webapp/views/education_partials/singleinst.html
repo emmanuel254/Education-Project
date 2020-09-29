@@ -1,0 +1,90 @@
+<div ui-view class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="hpanel">
+            <div class="panel-heading">
+                View Institution
+            </div>
+            <div class="panel-body" style="border-radius: 9px;">
+                <h3 class="text-center text-dark">{{ institution.name}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="hpanel">
+            <div class="panel-heading">
+                Courses Offered
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12 col-xs-12" style="padding: 0; margin:15px 0px 15px 15px;">
+                    <input type="text" placeholder="Filter by course title" ng-model="search" class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table ng-if="courses_list.length != 0" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th ng-click="sortBy('name')" style="cursor: pointer;">
+                                    Course Title
+                                    <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                    </th>
+                                    <th ng-click="sortBy('students')" style="cursor: pointer;">
+                                    No of Students
+                                    <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr dir-paginate="course in courses_list | filter : search | orderBy:propertyName:reverse | itemsPerPage:10">
+                                    <td style="width: 1%;">{{ $index + serial}}</td>
+                                    <td>{{ course.name }}</td>
+                                    <td>{{ course.students.length }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-info" ui-sref="home.global.singleinstitution.coursedetails({courseid:course.courseid})"><i class="fa fa-eye"></i></button>
+                                        <button class="btn btn-sm btn-primary" ng-click="manageCourse(course.courseid)"><i class="fa fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-danger {{ course.students.length > 0 ? 'disabled' : '' }}" ng-click="deleteCourse(course)"><i class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <dir-pagination-controls
+                            ng-if="courses_list.length != 0"
+                            on-page-change='indexCount(newPageNumber)'
+                            max-size="5"
+                            direction-links="true"
+                            boundary-links="true" >
+                        </dir-pagination-controls>
+                    </div>
+                    <div ng-if="courses_list.length == 0">
+                        <div class="alert alert-danger">
+                            <p>Oops {{ courseData.institution.name }} has not registered any courses yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="hpanel">
+            <div class="panel-heading">
+                {{ mode == 'edit' ? 'Edit Course' : 'Add Course' }}
+            </div>
+            <div class="panel-body">
+
+                <label for="institution">Institution</label>
+                <select name="institution" id="institution" class="form-control m-2" ng-options="i.name for i in institutions" ng-model="courseData.institution">
+                    <option value="">Select Institution</option>
+                </select>
+
+                <label for="coursename" style="margin-top: 10px;">Course Title</label>
+                <input placeholder="Enter Course Title" name="coursename" type="text" class="form-control" ng-model="courseData.name"/>
+
+                <button class="btn btn-sm btn-primary btn-block" style="margin: 15px 15px 15px 0; font-size: 15px;" ng-click="submitCourseData()">
+                    <i ng-if="loading" class="fa fa-spinner fa-spin"></i>
+                    <span>{{ mode== 'edit' ? loading ? 'Saving Changes...' : 'Save Changes' : loading ? 'Adding course...' : 'Add New Course'}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

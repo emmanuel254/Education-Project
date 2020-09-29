@@ -1,0 +1,32 @@
+<div id="navigation">
+    <div class="profile-picture">
+        <a ui-sref="home.global">
+            <img src="images/emmanuel_chesire.png" class="img-circle m-b" alt="logo">
+        </a>
+        <div class="stats-label text-color">
+            <span class="font-extra-bold font-uppercase">Emmanuel Chesire</span>
+            <small class="text-muted">emmanuelchesire1@gmail.com</small>
+            <div class="small-chart m-t-sm">
+                <div sparkline spark-data="barProfileData" spark-options="barProfileOptions"></div>
+            </div>
+        </div>
+    </div>
+    <ul side-navigation class="nav" id="side-menu">
+        <li ui-sref-active="active">
+            <a ui-sref="home.global">
+                <span class="nav-label">Institutions</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="home.courses">
+                <span class="nav-label">Courses</span>
+                <!-- <span class="label label-warning pull-right">NEW</span> -->
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="home.students">
+                <span class="nav-label">Students</span>
+            </a>
+        </li>
+    </ul>
+</div>

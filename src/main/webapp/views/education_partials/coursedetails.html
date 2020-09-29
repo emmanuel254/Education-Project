@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <div class="hpanel">
+            <div class="panel-heading">
+                Course Details
+            </div>
+            <div class="panel-body" style="border-radius: 9px;">
+                <h3 class="text-center text-dark">{{ institution.name}} | {{ course.name }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="hpanel">
+            <div class="panel-heading">
+                Students
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12 col-xs-12" style="padding: 0; margin:15px 0px 15px 15px;">
+                    <input type="text" placeholder="Filter by name" ng-model="search" class="form-control">
+                </div>
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table ng-if="course.students.length != 0" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th ng-click="sortBy('name')" style="cursor: pointer;">
+                                    Name
+                                    <span class="glyphicon glyphicon-sort" style="font-size: 10px;"></span>
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr dir-paginate="student in students |filter : search | orderBy:propertyName:reverse | itemsPerPage:10">
+                                    <td style="width: 1%;">{{ $index + serial}}</td>
+                                    <td>{{ student.name }}</td>
+                                    <td style="min-width: 170px;">
+                                        <button class="btn btn-sm btn-primary" ng-click="manageStudent(student.studentid)"><i class="fa fa-edit"></i></button>
+                                        <button class="btn btn-sm btn-danger" ng-click="deleteStudent(student)"><i class="fa fa-trash"></i></button>
+                                        <button class="btn btn-xs btn-primary pull-right" type="button" ui-sref="home.global.student({studentid:student.studentid})">View Profile</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <dir-pagination-controls
+                                ng-if="course.students.length != 0"
+                                on-page-change='indexCount(newPageNumber)'
+                                max-size="5"
+                                direction-links="true"
+                                boundary-links="true" >
+                            </dir-pagination-controls>
+                    </div>
+                    <div ng-if="course.students.length == 0">
+                        <div class="alert alert-danger">
+                            <p>Oops course {{ course.name }} has no registered students.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="hpanel">
+            <div class="panel-heading">
+                {{ studentmode == 'edit' ? 'Edit Student' : 'Add Student' }}
+            </div>
+            <div class="panel-body">
+
+                <label for="course">Course</label>
+                <select name="course" id="course" class="form-control m-2" ng-options="c.name for c in courses_list" ng-model="studentData.course">
+                    <option value="">Select Course</option>
+                </select>
+
+                <label for="studentname" style="margin-top: 10px;">Student Name</label>
+                <input placeholder="Enter Student Name" name="studentname" type="text" class="form-control" ng-model="studentData.name"/>
+
+                <button class="btn btn-sm btn-primary btn-block" style="margin: 15px 15px 15px 0; font-size: 18px;" ng-click="submitStudentData()">
+                    <i ng-if="loading" class="fa fa-spinner fa-spin"></i>
+                    <span>{{ studentmode== 'edit' ? loading ? 'Updating Changes...' : 'Save Changes' : loading ? 'Adding student...' : 'Add New Student'}}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
